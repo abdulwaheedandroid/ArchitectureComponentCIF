@@ -7,6 +7,12 @@ import androidx.lifecycle.LiveData;
 
 import java.util.List;
 
+
+/*
+* Repository is not the part of Architecture component but it is good practice to do so to add abstraction layer
+* on top of different data sources
+*
+* */
 public class NoteRepository {
 
     private enum Operations {
@@ -37,6 +43,10 @@ public class NoteRepository {
 
     public void deleteAll() {
         new InsertNoteAsyncTask(noteDao, Operations.DELTE_ALL).execute(new Note("", "", 0));
+    }
+
+    public LiveData<List<Note>> getAllNotes () {
+        return allNotes;
     }
 
     private static class InsertNoteAsyncTask extends AsyncTask<Note, Void, Void> {
