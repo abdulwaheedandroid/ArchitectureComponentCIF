@@ -21,7 +21,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements NoteAdapter.OnItemClickListener {
+public class MainActivity extends AppCompatActivity implements NoteListAdapter.OnItemClickListener {
 
     public static final int ADD_NOTE_REQUEST = 1;
     public static final int EDIT_NOTE_REQUEST = 2;
@@ -29,6 +29,7 @@ public class MainActivity extends AppCompatActivity implements NoteAdapter.OnIte
     private NoteViewModel noteViewModel;
     private RecyclerView rvNotes;
     private NoteAdapter noteAdapter;
+    private NoteListAdapter noteLisAdapter;
     private FloatingActionButton addNote;
 
     @Override
@@ -49,8 +50,11 @@ public class MainActivity extends AppCompatActivity implements NoteAdapter.OnIte
         rvNotes.setLayoutManager(new LinearLayoutManager(this));
         rvNotes.setHasFixedSize(true);
 
-        noteAdapter = new NoteAdapter();
-        rvNotes.setAdapter(noteAdapter);
+        //noteAdapter = new NoteAdapter();
+        //rvNotes.setAdapter(noteAdapter);
+        noteLisAdapter = new NoteListAdapter();
+        rvNotes.setAdapter(noteLisAdapter);
+
 
 
         /*
@@ -66,7 +70,8 @@ public class MainActivity extends AppCompatActivity implements NoteAdapter.OnIte
             @Override
             public void onChanged(List<Note> notes) {
                 //Update our RecyclerView
-                noteAdapter.setAllNotes(notes);
+                //noteAdapter.setAllNotes(notes);
+                noteLisAdapter.submitList(notes);
             }
         });
 
@@ -84,7 +89,8 @@ public class MainActivity extends AppCompatActivity implements NoteAdapter.OnIte
             }
         }).attachToRecyclerView(rvNotes);
 
-        noteAdapter.setOnItemClickListener(this);
+        //noteAdapter.setOnItemClickListener(this);
+        noteLisAdapter.setOnItemClickListener(this);
     }
 
     @Override
