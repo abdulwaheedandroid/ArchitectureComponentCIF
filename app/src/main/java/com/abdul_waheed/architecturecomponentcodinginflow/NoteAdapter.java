@@ -3,11 +3,9 @@ package com.abdul_waheed.architecturecomponentcodinginflow;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ListAdapter;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.lifecycle.LiveData;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
@@ -16,6 +14,7 @@ import java.util.List;
 public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteHolder> {
 
     private List<Note> allNotes = new ArrayList<>();
+    private OnItemClickListener clickListener;
 
     class NoteHolder extends RecyclerView.ViewHolder {
 
@@ -26,6 +25,14 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteHolder> {
             tvTitle = itemView.findViewById(R.id.tv_title);
             tvPriority = itemView.findViewById(R.id.tv_priority);
             tvDescription = itemView.findViewById(R.id.tv_description);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (clickListener != null && getAdapterPosition() != RecyclerView.NO_POSITION)
+                        clickListener.onItemClick(allNotes.get(getAdapterPosition()));
+                }
+            });
         }
     }
 
@@ -58,5 +65,13 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteHolder> {
     @Override
     public int getItemCount() {
         return allNotes.size();
+    }
+
+    public interface OnItemClickListener {
+        void onItemClick(Note note);
+    }
+
+    public void setOnItemClickListener(OnItemClickListener clickListener) {
+        this.clickListener = clickListener;
     }
 }
